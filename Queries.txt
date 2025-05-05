@@ -1,0 +1,88 @@
+// 01. Drop the current database
+db.dropDatabase();
+
+
+// 02. Drop a collection from the database (if it's the only one, the database will also be deleted)
+db.sampledata.drop();
+
+
+// 03. Delete one document from the degrees collection by ObjectId
+db.degrees.deleteOne({
+  _id: ObjectId('680ee9301c9eb70824659110')
+});
+
+
+// 04. Get only the name and duration fields (with _id included by default)
+db.degrees.find({}, {
+  name: 1,
+  duration: 1
+});
+
+
+// 05. Get only the name field (with _id included by default)
+db.degrees.find({}, {
+  name: 1
+});
+
+
+// 06. Get only the name field, excluding _id
+db.degrees.find({}, {
+  name: 1,
+  _id: 0
+});
+
+
+// 07. Get the name of each degree, excluding _id
+db.degrees.find({}, {
+  name: 1,
+  _id: 0
+}).pretty();
+
+
+// 08. Delete all degrees where duration is less than 4
+db.degrees.deleteMany({
+  duration: { $lt: 4 }
+});
+
+// Verify deletion
+db.degrees.find({}, {
+  name: 1,
+  _id: 0
+}).pretty();
+
+
+// 09. Update one degree document
+db.degrees.updateOne(
+  { _id: ObjectId('680eef2e1c9eb70824659115') },
+  { $set: { name: 'BIT', duration: 3 } }
+);
+
+// Verify the update
+db.degrees.findOne({
+  _id: ObjectId('680eef2e1c9eb70824659115')
+});
+
+
+// 10. Update many documents: increase duration by 1 where duration >= 4
+db.degrees.updateMany(
+  { duration: { $gte: 4 } },
+  { $inc: { duration: 1 } }
+);
+
+// Verify the update
+db.degrees.find({}, {
+  name: 1,
+  duration: 1
+});
+
+
+// 11. Add a skill to the 'skills' array for a specific student
+db.students.updateOne(
+  { regno: "2021ICT75" },
+  { $push: { skills: "PHP" } }
+);
+
+// Verify the update
+db.students.findOne({
+  regno: "2021ICT75"
+});
