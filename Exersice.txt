@@ -74,6 +74,12 @@
 	db.books.find(
 		{genres:"Dystopian"}
 	)
+08.Find the books which published after 1960 and had rating more than 4.0
+
+	db.books.find(
+	{ published_year: { $gte: 1960 },
+	rating: { $gt: 4.0 } }
+	)
 
 09. Project only title and author fields
 
